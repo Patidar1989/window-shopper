@@ -13,6 +13,8 @@ class MainVC: UIViewController {
     @IBOutlet weak var wageTxt: CurrencyTextField!
     @IBOutlet weak var priceTxt: CurrencyTextField!
    
+    @IBOutlet weak var hrsLbl: UILabel!
+    @IBOutlet weak var resultsLbl: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ViewDidLoad")
@@ -25,13 +27,32 @@ class MainVC: UIViewController {
         
         wageTxt.inputAccessoryView = calcBtn
         priceTxt.inputAccessoryView = calcBtn
+        
+        resultsLbl.isHidden  = true
+        hrsLbl.isHidden = true
     }
 
     @objc func calculate()
     {
-        print("WE got here")
+        if let wageTxt = wageTxt.text, let priceTxt = priceTxt.text {
+            if  let wage = Double(wageTxt) , let price = Double(priceTxt){
+                    view.endEditing(true)
+                resultsLbl.isHidden = false
+                hrsLbl.isHidden = false
+                
+                resultsLbl.text = "\(Wage.getHours(forWage: wage, andPrice: price))"
+            }
+        }
     }
 
-
+    @IBAction func clearCalculatorPressed(_ sender: Any) {
+        
+        resultsLbl.isHidden  = true
+        hrsLbl.isHidden = true
+        wageTxt.text = ""
+        priceTxt.text = ""
+        
+    }
+    
 }
 
